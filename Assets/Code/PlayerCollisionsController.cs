@@ -95,7 +95,7 @@ namespace Code
             FoodEatenEvent?.Invoke(this, EventArgs.Empty);
 
             _currentFoodCount++;
-            // PerformSpherization();
+             PerformSpherization();
             
             // TODO: Optionally take into account food volume
             // var mr = tr.GetComponentInChildren<MeshRenderer>();
