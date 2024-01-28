@@ -13107,7 +13107,7 @@ MonoBehaviour:
   growGradually: 1
   isExploding: 0
   isFirstPlayer: 1
-  respawnTimeout: 0.5
+  respawnTimeout: 1
   scaleChangeOnEat: 8
   scaleDelta: 0.0025
   growingTime: 2
@@ -14974,7 +14974,7 @@ MonoBehaviour:
   growGradually: 1
   isExploding: 0
   isFirstPlayer: 0
-  respawnTimeout: 0.5
+  respawnTimeout: 1
   scaleChangeOnEat: 8
   scaleDelta: 0.0025
   growingTime: 2
