@@ -23,6 +23,7 @@ namespace Code
         [HideInInspector] public bool growGradually = true;
         [HideInInspector] public bool isExploding;
 
+        public bool isFirstPlayer;
         public float respawnTimeout = .5f;
         public float scaleChangeOnEat = 15f;
         public float scaleDelta = 0.005f;
