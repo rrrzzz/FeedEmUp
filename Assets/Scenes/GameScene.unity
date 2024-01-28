@@ -5524,7 +5524,7 @@ Transform:
   m_GameObject: {fileID: 318120942}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 1.136, y: 1.21, z: 1.022}
+  m_LocalPosition: {x: 0.91748726, y: -0.14062473, z: 1.0699999}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6142,13 +6142,18 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 7fcec322f778c3a4eb410ad75d1b9b8a,
         type: 3}
+      propertyPath: m_LocalScale.x
+      value: 20.63
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 7fcec322f778c3a4eb410ad75d1b9b8a,
+        type: 3}
       propertyPath: m_LocalScale.y
       value: 20.592463
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7fcec322f778c3a4eb410ad75d1b9b8a,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 20.592463
+      value: 20.59246
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7fcec322f778c3a4eb410ad75d1b9b8a,
         type: 3}
@@ -6361,13 +6366,18 @@ MonoBehaviour:
   targScale: 0
   growGradually: 1
   isExploding: 0
-  scaleChangeOnEat: 5
+  scaleChangeOnEat: 15
   maxLocalScale: 0.5
   scaleDelta: 0.005
   growingTime: 5
   suckingTime: 0.1
+  shapingTime: 0.5
   ExplodeAudio: {fileID: 29582855}
-  _explodeFoodCount: 5
+  goreParticles: {fileID: 318120944}
+  goreEmitterYOffset: 0.3
+  explosionScaleMultiplier: 3
+  explosionScalingTime: 1
+  explodeFoodCount: 5
   _text: {fileID: 997751829}
 --- !u!1 &767156552
 GameObject:

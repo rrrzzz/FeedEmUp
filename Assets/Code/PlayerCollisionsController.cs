@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Code
 {
@@ -15,21 +17,25 @@ namespace Code
         [HideInInspector] public float targScale;
         [HideInInspector] public bool growGradually = true;
         [HideInInspector] public bool isExploding;
-        // [HideInInspector] public float scaleChangeOnEat = 0.1f;
-        // [HideInInspector] public float maxLocalScale = 0.5f;
     
-        public float scaleChangeOnEat = 0.1f;
-        public float maxLocalScale = 0.5f;
-        [SerializeField] private float scaleDelta = 0.005f;
-        [SerializeField] private float growingTime = 0.5f;
-        [SerializeField] private float suckingTime = 0.1f;
-
-        [SerializeField] public AudioSource ExplodeAudio;
-
-        public int _explodeFoodCount;
-        public TMP_Text _text;
+        public float scaleChangeOnEat = 15f;
+        public float scaleDelta = 0.005f;
+        public float growingTime = 0.5f;
+        public float suckingTime = 0.1f;
+        public float shapingTime = 0.5f;
+        public AudioSource ExplodeAudio;
+        public ParticleSystem goreParticles;
+        public float goreEmitterYOffset = 0.3f;
+        public float explosionScaleMultiplier = 10f;
+        public float explosionScalingTime = 1f;
+        public int explodeFoodCount = 5;
+        
         private int _currentFoodCount;
         private SkinnedMeshRenderer _meshRenderer;
+        private float _currentShapeVal;
+        private Vector3 _currentScale;
+        private float _initialYScale;
+        private SphereCollider _col;
 
         // public void SetFoodCount()
         // {
@@ -40,20 +46,24 @@ namespace Code
         {
             ExplodeAudio.GetComponent<AudioSource>();
             _meshRenderer = GetComponent<SkinnedMeshRenderer>();
+            _initialYScale = transform.localScale.y;
+            _col = GetComponent<SphereCollider>();
+            
             // SetFoodCount();
         }
 
         private void Update()
         {
+            var trCenter = transform.TransformPoint(_col.center);
+            var scaleChange = _initialYScale / transform.localScale.y;
+            goreParticles.transform.position = trCenter + Vector3.up * (goreEmitterYOffset * scaleChange);
             if (isExploding) 
                 return;
 
-            //transform.localScale.x > maxLocalScale || 
-            if (_currentFoodCount == _explodeFoodCount)
+            _meshRenderer.SetBlendShapeWeight(0, _currentShapeVal * 100);
+
+            if (_currentFoodCount == explodeFoodCount)
             {
-                _text.enabled = true;
-                // Debug.Log("Explode!");
-                ExplodeAudio.Play();
                 Explode();
             }
         }
@@ -64,10 +74,22 @@ namespace Code
             {
                 return;
             }
-            ExplodeEvent?.Invoke(this, EventArgs.Empty);
-        
+
+            GetComponent<Rigidbody>().isKinematic = true;
             isExploding = true;
-            
+            _col.isTrigger = true;
+            var finalScale = transform.localScale * explosionScaleMultiplier;
+
+            var seq = DOTween.Sequence();
+            seq.Append(DOTween.To(() => transform.localScale, value => transform.localScale = value, finalScale, 
+                explosionScalingTime));
+            seq.AppendCallback(() =>
+            {
+                _meshRenderer.enabled = false;
+                ExplodeAudio.Play();
+                goreParticles.Play();
+                ExplodeEvent?.Invoke(this, EventArgs.Empty);
+            });
         }
 
         private void OnCollisionEnter(Collision other)
@@ -79,16 +101,16 @@ namespace Code
         
             ProcessCollision(tr);
         }
-        
-        private void OnCollisionTriggerEnter(Collision other)
-        {
-            var tr = other.transform;
-        
-            if (!tr.CompareTag(Constants.EatableTag))
-                return;
-        
-            ProcessCollision(tr);
-        }
+        //
+        // private void OnCollisionTriggerEnter(Collision other)
+        // {
+        //     var tr = other.transform;
+        //
+        //     if (!tr.CompareTag(Constants.EatableTag))
+        //         return;
+        //
+        //     ProcessCollision(tr);a
+        // }
 
         public void ProcessCollision(Transform tr)
         {
@@ -114,7 +136,8 @@ namespace Code
 
         private void PerformSpherization()
         {
-            _meshRenderer.SetBlendShapeWeight(0, (float)_currentFoodCount / _explodeFoodCount * 10);
+            var newShapeVal = (float)_currentFoodCount / (explodeFoodCount - 1);
+            DOTween.To(()=> _currentShapeVal, x => _currentShapeVal = x, newShapeVal, shapingTime);
         }
 
         private IEnumerator ScaleUp(float volume)
