@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 25369.398, g: 21503.498, b: 28991.691, a: 1}
+  m_IndirectSpecularColor: {r: 25409.32, g: 21553.19, b: 29059.91, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -701,6 +701,7 @@ MonoBehaviour:
   explosionScaleMultiplier: 3
   explosionScalingTime: 1
   explodeFoodCount: 5
+  spawnPointsParent: {fileID: 0}
 --- !u!1 &128983933
 GameObject:
   m_ObjectHideFlags: 0
@@ -7321,11 +7322,11 @@ Transform:
   m_GameObject: {fileID: 561990036}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.68875337, z: -0, w: 0.7249958}
-  m_LocalPosition: {x: -8.964, y: -0.222, z: 0.02}
+  m_LocalPosition: {x: -8.422, y: -0.322, z: 0.002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1605476005}
   m_LocalEulerAnglesHint: {x: 0, y: 87.063, z: 0}
 --- !u!1001 &591334722
 PrefabInstance:
@@ -8158,6 +8159,7 @@ MonoBehaviour:
   explosionScaleMultiplier: 2
   explosionScalingTime: 0.1
   explodeFoodCount: 10
+  spawnPointsParent: {fileID: 0}
 --- !u!1 &767156552
 GameObject:
   m_ObjectHideFlags: 0
@@ -8182,12 +8184,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 767156552}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.37855983, z: -0, w: 0.92557687}
-  m_LocalPosition: {x: 6.435, y: -0.114, z: -6.463}
+  m_LocalRotation: {x: -0, y: -0.37855983, z: -0, w: 0.92557687}
+  m_LocalPosition: {x: 5.973, y: -0.322, z: -5.994}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1605476005}
   m_LocalEulerAnglesHint: {x: 0, y: -44.489, z: 0}
 --- !u!1001 &813428282
 PrefabInstance:
@@ -11021,6 +11023,11 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2116951782}
+  - {fileID: 767156553}
+  - {fileID: 561990037}
+  - {fileID: 1714990756}
+  - {fileID: 2134476749}
+  - {fileID: 1906295858}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1652466013
@@ -11365,12 +11372,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1714990755}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0.7276051, z: -0, w: 0.68599623}
-  m_LocalPosition: {x: 9.039, y: -0.256, z: -0.028}
+  m_LocalRotation: {x: -0, y: -0.7276051, z: -0, w: 0.68599623}
+  m_LocalPosition: {x: 8.411, y: -0.322, z: -0.065}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1605476005}
   m_LocalEulerAnglesHint: {x: 0, y: -93.372, z: 0}
 --- !u!1 &1786563282
 GameObject:
@@ -12024,11 +12031,11 @@ Transform:
   m_GameObject: {fileID: 1906295857}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.926814, z: -0, w: 0.37552074}
-  m_LocalPosition: {x: 6.443, y: -0.149, z: 6.414}
+  m_LocalPosition: {x: 5.98, y: -0.322, z: 5.972}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1605476005}
   m_LocalEulerAnglesHint: {x: 0, y: -135.887, z: 0}
 --- !u!1 &1913262250
 GameObject:
@@ -13253,7 +13260,7 @@ Transform:
   m_GameObject: {fileID: 2116951781}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.37107614, z: 0, w: 0.92860246}
-  m_LocalPosition: {x: -5.949, y: -0.342, z: -5.916}
+  m_LocalPosition: {x: -5.979, y: -0.322, z: -5.979}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -13284,11 +13291,11 @@ Transform:
   m_GameObject: {fileID: 2134476748}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: 0.9222111, z: -0, w: 0.38668674}
-  m_LocalPosition: {x: -6.4631, y: -0.124, z: 6.4504}
+  m_LocalPosition: {x: -5.994, y: -0.322, z: 5.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1605476005}
   m_LocalEulerAnglesHint: {x: 0, y: 134.503, z: 0}
 --- !u!1 &2143453601
 GameObject:
@@ -13414,11 +13421,6 @@ SceneRoots:
   - {fileID: 1227292641}
   - {fileID: 1553894752}
   - {fileID: 2097715130}
-  - {fileID: 767156553}
-  - {fileID: 561990037}
-  - {fileID: 1714990756}
-  - {fileID: 2134476749}
-  - {fileID: 1906295858}
   - {fileID: 1671694861}
   - {fileID: 1391961757}
   - {fileID: 1958173568}
