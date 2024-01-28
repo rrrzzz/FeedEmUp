@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
 using TMPro;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -37,7 +38,9 @@ namespace Code
         public float explosionScaleMultiplier = 10f;
         public float explosionScalingTime = 1f;
         public int explodeFoodCount = 5;
-        
+        public TMP_Text text;
+        public TMP_Text textScore1;
+        public TMP_Text textScore2;
         public Transform spawnPointsParent;
         
         private List<Transform> _spawnPoints;
@@ -55,8 +58,14 @@ namespace Code
             explodeAudio.GetComponent<AudioSource>();
             _meshRenderer = GetComponent<SkinnedMeshRenderer>();
             _initialScale = transform.localScale;
+            
             _col = GetComponent<SphereCollider>();
+            
+            
             _rb = GetComponent<Rigidbody>();
+            
+            SpawnAtRandomPoint();
+            
         }
 
         private void Update()
@@ -111,6 +120,18 @@ namespace Code
                 if (_currentScore == WinScore)
                 {
                     WinEvent?.Invoke(this, EventArgs.Empty);
+                    if (isFirstPlayer)
+                    {
+                        text.text = "PLAYER 1 WINS!";
+                    }
+                    else
+                    {
+                        text.text = "PLAYER 2 WINS!";
+                    }
+
+                    text.enabled = true;
+                    
+                    
                     seq.Kill();
                 }
                 
@@ -143,7 +164,16 @@ namespace Code
             FoodEatenEvent?.Invoke(this, EventArgs.Empty);
 
             _currentFoodCount++;
-             PerformSpherization();
+            if (isFirstPlayer)
+            {
+                textScore1.text = _currentFoodCount.ToString();
+            }
+            else
+            {
+                textScore2.text = _currentFoodCount.ToString();
+            }
+            
+            PerformSpherization();
         
             StartCoroutine(ScaleDown(tr));
             StartCoroutine(ScaleUp(scaleChangeOnEat));
