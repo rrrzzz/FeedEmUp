@@ -13,8 +13,10 @@ namespace Code
     [RequireComponent(typeof(SkinnedMeshRenderer))]
     public class PlayerCollisionsController : MonoBehaviour
     {
+        public static int WinScore;
         public static EventHandler ExplodeEvent;
         public static EventHandler FoodEatenEvent;
+        public static EventHandler WinEvent;
         public static EventHandler PowerUpEatenEvent;
         [HideInInspector] public bool isGrowing;
         [HideInInspector] public float targScale;
@@ -43,6 +45,8 @@ namespace Code
         private Vector3 _initialScale;
         private SphereCollider _col;
         private Rigidbody _rb;
+        private int _currentScore;
+        
 
         // public void SetFoodCount()
         // {
@@ -72,6 +76,7 @@ namespace Code
 
             if (_currentFoodCount == explodeFoodCount)
             {
+                _currentScore++;
                 Explode();
             }
         }
@@ -107,6 +112,12 @@ namespace Code
                 explodeAudio.Play();
                 goreParticles.Play();
                 ExplodeEvent?.Invoke(this, EventArgs.Empty);
+                if (_currentScore == WinScore)
+                {
+                    WinEvent?.Invoke(this, EventArgs.Empty);
+                    seq.Kill();
+                }
+                
             });
             seq.AppendInterval(respawnTimeout);
             seq.AppendCallback(() =>
