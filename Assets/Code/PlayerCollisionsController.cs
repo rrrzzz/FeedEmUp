@@ -77,7 +77,6 @@ namespace Code
 
             GetComponent<Rigidbody>().isKinematic = true;
             isExploding = true;
-            _col.isTrigger = true;
             var finalScale = transform.localScale * explosionScaleMultiplier;
 
             var seq = DOTween.Sequence();
