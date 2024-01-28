@@ -17,13 +17,14 @@ namespace Code
         [HideInInspector] public float targScale;
         [HideInInspector] public bool growGradually = true;
         [HideInInspector] public bool isExploding;
-    
+
+        public float respawnTimeout = .5f;
         public float scaleChangeOnEat = 15f;
         public float scaleDelta = 0.005f;
         public float growingTime = 0.5f;
         public float suckingTime = 0.1f;
         public float shapingTime = 0.5f;
-        public AudioSource ExplodeAudio;
+        public AudioSource explodeAudio;
         public ParticleSystem goreParticles;
         public float goreEmitterYOffset = 0.3f;
         public float explosionScaleMultiplier = 10f;
@@ -33,9 +34,9 @@ namespace Code
         private int _currentFoodCount;
         private SkinnedMeshRenderer _meshRenderer;
         private float _currentShapeVal;
-        private Vector3 _currentScale;
-        private float _initialYScale;
+        private Vector3 _initialScale;
         private SphereCollider _col;
+        private Rigidbody _rb;
 
         // public void SetFoodCount()
         // {
@@ -44,18 +45,18 @@ namespace Code
 
         private void Start()
         {
-            ExplodeAudio.GetComponent<AudioSource>();
+            explodeAudio.GetComponent<AudioSource>();
             _meshRenderer = GetComponent<SkinnedMeshRenderer>();
-            _initialYScale = transform.localScale.y;
+            _initialScale = transform.localScale;
             _col = GetComponent<SphereCollider>();
-            
+            _rb = GetComponent<Rigidbody>();
             // SetFoodCount();
         }
 
         private void Update()
         {
             var trCenter = transform.TransformPoint(_col.center);
-            var scaleChange = _initialYScale / transform.localScale.y;
+            var scaleChange = _initialScale.y / transform.localScale.y;
             goreParticles.transform.position = trCenter + Vector3.up * (goreEmitterYOffset * scaleChange);
             if (isExploding) 
                 return;
@@ -67,7 +68,18 @@ namespace Code
                 Explode();
             }
         }
-    
+
+        private void ResetPlayer()
+        {
+            transform.localScale = _initialScale;
+            _meshRenderer.SetBlendShapeWeight(0, 0);
+            _currentFoodCount = 0;
+            _meshRenderer.enabled = true;
+            _rb.isKinematic = false;
+            isExploding = false;
+            _currentShapeVal = 0;
+        }
+
         private void Explode()
         {
             if (isExploding)
@@ -75,7 +87,7 @@ namespace Code
                 return;
             }
 
-            GetComponent<Rigidbody>().isKinematic = true;
+            _rb.isKinematic = true;
             isExploding = true;
             var finalScale = transform.localScale * explosionScaleMultiplier;
 
@@ -85,10 +97,12 @@ namespace Code
             seq.AppendCallback(() =>
             {
                 _meshRenderer.enabled = false;
-                ExplodeAudio.Play();
+                explodeAudio.Play();
                 goreParticles.Play();
                 ExplodeEvent?.Invoke(this, EventArgs.Empty);
             });
+            seq.AppendInterval(respawnTimeout);
+            seq.AppendCallback(ResetPlayer);
         }
 
         private void OnCollisionEnter(Collision other)
