@@ -31,6 +31,7 @@ namespace Code
         public float suckingTime = 0.1f;
         public float shapingTime = 0.5f;
         public AudioSource explodeAudio;
+        public AudioSource EvilLaugh;
         public ParticleSystem goreParticles;
         public float goreEmitterYOffset = 0.3f;
         public float explosionScaleMultiplier = 10f;
@@ -111,6 +112,7 @@ namespace Code
             {
                 _meshRenderer.enabled = false;
                 explodeAudio.Play();
+                EvilLaugh.Play();
                 goreParticles.Play();
                 ExplodeEvent?.Invoke(this, EventArgs.Empty);
                 if (_currentScore == WinScore)
