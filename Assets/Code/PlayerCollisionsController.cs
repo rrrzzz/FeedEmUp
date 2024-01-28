@@ -1,9 +1,12 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
 
 namespace Code
 {
@@ -31,6 +34,9 @@ namespace Code
         public float explosionScalingTime = 1f;
         public int explodeFoodCount = 5;
         
+        public Transform spawnPointsParent;
+        
+        private List<Transform> _spawnPoints;
         private int _currentFoodCount;
         private SkinnedMeshRenderer _meshRenderer;
         private float _currentShapeVal;
@@ -45,6 +51,7 @@ namespace Code
 
         private void Start()
         {
+            _spawnPoints = spawnPointsParent.GetComponentsInChildren<Transform>().Skip(1).ToList();
             explodeAudio.GetComponent<AudioSource>();
             _meshRenderer = GetComponent<SkinnedMeshRenderer>();
             _initialScale = transform.localScale;
@@ -102,7 +109,11 @@ namespace Code
                 ExplodeEvent?.Invoke(this, EventArgs.Empty);
             });
             seq.AppendInterval(respawnTimeout);
-            seq.AppendCallback(ResetPlayer);
+            seq.AppendCallback(() =>
+            { 
+                SpawnAtRandomPoint();
+                ResetPlayer();
+            });
         }
 
         private void OnCollisionEnter(Collision other)
@@ -216,6 +227,16 @@ namespace Code
             }
         
             Destroy(tr.gameObject);
+        }
+        
+        private void SpawnAtRandomPoint()
+        {
+            var range = _spawnPoints.Count;
+            var idx = Random.Range(0, range);
+            var spawnPoint = _spawnPoints[idx];
+            transform.position = spawnPoint.position;
+            var rotation = Quaternion.Euler(-90, spawnPoint.rotation.eulerAngles.y, 0);
+            transform.rotation = rotation;
         }
     
         private Vector3 GetFinalScaleVector3(float s) => new Vector3(s, s, s);
