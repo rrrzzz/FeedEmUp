@@ -24,6 +24,8 @@ namespace Code
         [SerializeField] private float growingTime = 0.5f;
         [SerializeField] private float suckingTime = 0.1f;
 
+        [SerializeField] public AudioSource ExplodeAudio;
+
         public int _explodeFoodCount;
         public TMP_Text _text;
         private int _currentFoodCount;
@@ -36,6 +38,7 @@ namespace Code
 
         private void Start()
         {
+            ExplodeAudio.GetComponent<AudioSource>();
             _meshRenderer = GetComponent<SkinnedMeshRenderer>();
             // SetFoodCount();
         }
@@ -50,6 +53,7 @@ namespace Code
             {
                 _text.enabled = true;
                 // Debug.Log("Explode!");
+                ExplodeAudio.Play();
                 Explode();
             }
         }
@@ -63,6 +67,7 @@ namespace Code
             ExplodeEvent?.Invoke(this, EventArgs.Empty);
         
             isExploding = true;
+            
         }
 
         private void OnCollisionEnter(Collision other)
@@ -95,7 +100,7 @@ namespace Code
             FoodEatenEvent?.Invoke(this, EventArgs.Empty);
 
             _currentFoodCount++;
-            // PerformSpherization();
+             PerformSpherization();
             
             // TODO: Optionally take into account food volume
             // var mr = tr.GetComponentInChildren<MeshRenderer>();
