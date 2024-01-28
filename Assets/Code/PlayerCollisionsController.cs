@@ -13,7 +13,7 @@ namespace Code
     [RequireComponent(typeof(SkinnedMeshRenderer))]
     public class PlayerCollisionsController : MonoBehaviour
     {
-        public static int WinScore;
+        public static int WinScore = 5;
         public static EventHandler ExplodeEvent;
         public static EventHandler FoodEatenEvent;
         public static EventHandler WinEvent;
@@ -47,12 +47,6 @@ namespace Code
         private SphereCollider _col;
         private Rigidbody _rb;
         private int _currentScore;
-        
-
-        // public void SetFoodCount()
-        // {
-        //     _currentFoodCount = Mathf.RoundToInt(maxLocalScale / scaleChangeOnEat);
-        // }
 
         private void Start()
         {
@@ -62,7 +56,6 @@ namespace Code
             _initialScale = transform.localScale;
             _col = GetComponent<SphereCollider>();
             _rb = GetComponent<Rigidbody>();
-            // SetFoodCount();
         }
 
         private void Update()
@@ -137,16 +130,6 @@ namespace Code
         
             ProcessCollision(tr);
         }
-        //
-        // private void OnCollisionTriggerEnter(Collision other)
-        // {
-        //     var tr = other.transform;
-        //
-        //     if (!tr.CompareTag(Constants.EatableTag))
-        //         return;
-        //
-        //     ProcessCollision(tr);a
-        // }
 
         public void ProcessCollision(Transform tr)
         {
@@ -159,12 +142,6 @@ namespace Code
 
             _currentFoodCount++;
              PerformSpherization();
-            
-            // TODO: Optionally take into account food volume
-            // var mr = tr.GetComponentInChildren<MeshRenderer>();
-            // var meshGlobalVolume = mr.bounds.size;
-            // var volume = meshGlobalVolume.x * meshGlobalVolume.y * meshGlobalVolume.z;
-            // StartCoroutine(ScaleUp(Mathf.Pow(volume, 1f / 3f)));
         
             StartCoroutine(ScaleDown(tr));
             StartCoroutine(ScaleUp(scaleChangeOnEat));
